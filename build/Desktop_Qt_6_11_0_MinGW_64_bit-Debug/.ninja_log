@@ -1,0 +1,24 @@
+# ninja log v6
+42	455	8013282784963176	TextEidt_autogen/timestamp	73c907ccb3b64eb6
+42	455	8013282784963176	TextEidt_autogen/mocs_compilation.cpp	73c907ccb3b64eb6
+42	455	8013282784963176	E:/QtWorkspace/TextEidt/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/TextEidt_autogen/timestamp	73c907ccb3b64eb6
+157	234	8013110040970926	E:/QtWorkspace/TextEidt/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/TextEidt_autogen/EWIEGA46WW/qrc_rec.cpp	27309b5275ed8c5a
+42	455	8013282784963176	E:/QtWorkspace/TextEidt/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/TextEidt_autogen/mocs_compilation.cpp	73c907ccb3b64eb6
+157	234	8013110040970926	TextEidt_autogen/EWIEGA46WW/qrc_rec.cpp	27309b5275ed8c5a
+237	299	8013110041070775	CMakeFiles/TextEidt.dir/TextEidt_autogen/EWIEGA46WW/qrc_rec.cpp.obj	d50ac1691c25a7e8
+455	2609	8013282785595018	CMakeFiles/TextEidt.dir/TextEidt_autogen/mocs_compilation.cpp.obj	b93686b87ca70073
+461	2665	8013282785645021	CMakeFiles/TextEidt.dir/mainwindow.cpp.obj	ce33c1e6c5d9c6a0
+458	2409	8013282785615009	CMakeFiles/TextEidt.dir/main.cpp.obj	a5af0af40339dd62
+2665	2828	8013282807683770	TextEidt.exe	eab249a9640819c4
+19	160	8013284289029907	TextEidt_autogen/timestamp	73c907ccb3b64eb6
+19	160	8013284289029907	TextEidt_autogen/mocs_compilation.cpp	73c907ccb3b64eb6
+19	160	8013284289029907	E:/QtWorkspace/TextEidt/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/TextEidt_autogen/timestamp	73c907ccb3b64eb6
+19	160	8013284289029907	E:/QtWorkspace/TextEidt/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/TextEidt_autogen/mocs_compilation.cpp	73c907ccb3b64eb6
+160	1977	8013284290450554	CMakeFiles/TextEidt.dir/mainwindow.cpp.obj	ce33c1e6c5d9c6a0
+1977	2138	8013284308590353	TextEidt.exe	eab249a9640819c4
+5	128	8013286621619994	TextEidt_autogen/timestamp	73c907ccb3b64eb6
+5	128	8013286621619994	TextEidt_autogen/mocs_compilation.cpp	73c907ccb3b64eb6
+5	128	8013286621619994	E:/QtWorkspace/TextEidt/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/TextEidt_autogen/timestamp	73c907ccb3b64eb6
+5	128	8013286621619994	E:/QtWorkspace/TextEidt/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/TextEidt_autogen/mocs_compilation.cpp	73c907ccb3b64eb6
+129	1927	8013286622859515	CMakeFiles/TextEidt.dir/mainwindow.cpp.obj	ce33c1e6c5d9c6a0
+1927	2087	8013286640832431	TextEidt.exe	eab249a9640819c4
