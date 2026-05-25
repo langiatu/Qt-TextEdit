@@ -418,6 +418,6 @@ E:/QtWorkspace/TextEidt/mainwindow.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h
  mdp:E:/QtWorkspace/TextEidt/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/TextEidt_autogen/moc_predefs.h
  mdp:E:/QtWorkspace/TextEidt/mainwindow.h
-E:/QtWorkspace/TextEidt/main.cpp
 E:/QtWorkspace/TextEidt/mainwindow.cpp
  uic:ui_mainwindow.h
+E:/QtWorkspace/TextEidt/main.cpp

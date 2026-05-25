@@ -7,13 +7,15 @@
 #include<QFileDialog>
 #include<QByteArray>
 #include<QMessageBox>
+#include<QFileInfo>
+#include<QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , statubar(this->statusBar())
     , filepath("")
-    , StatufileName(new QLabel("当前文件 : "))
+    , StatufileName(new QLabel(""))
+    , time(new QLabel(this))
 {
     ui->setupUi(this);
 
@@ -23,8 +25,10 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowIcon(icon);
 
     //设置窗口布局
-    this->setMenuBar(menubar);
     this->setwindow();
+    QTimer *timer = new QTimer(this);
+    connect(timer,&QTimer::timeout,this,&MainWindow::updateStaTime);
+    timer->start(6000);
 
     connect(statubar,&QStatusBar::messageChanged,this,&MainWindow::updateStatu);
 
@@ -54,20 +58,22 @@ void MainWindow::setwindow()
     QAction *addTime = editmenu->addAction("添加时间/日期");
 
     connect(openfile,&QAction::triggered,this,&MainWindow::openfile);
-    connect(openfile,&QAction::triggered,this,&MainWindow::savetofile);
-    // connect(openfile,&QAction::triggered,this,&MainWindow::openfile);
-    // connect(openfile,&QAction::triggered,this,&MainWindow::openfile);
-    // connect(openfile,&QAction::triggered,this,&MainWindow::openfile);
+    connect(saveto,&QAction::triggered,this,&MainWindow::savetofile);
+    connect(save,&QAction::triggered,this,&MainWindow::onsavefile);
+    connect(changeFont,&QAction::triggered,this,&MainWindow::onchangeFont);
+    connect(addTime,&QAction::triggered,this,&MainWindow::onAddtime);
 
     //设置状态栏
+    this->statubar = this->statusBar();
     //时间显示
-    QLabel* time = new QLabel(this);
     QDateTime nowtime = QDateTime::currentDateTime();
     time->setText("时间 : "+nowtime.toString("yyyy-MM-dd hh:mm"));
     statubar->addWidget(time,1);
 
     //当前文件名显示
     statubar->addWidget(StatufileName,1);
+
+    this->setStatusBar(this->statubar);
 
     //设置主部件
     QTextEdit* textedit = new QTextEdit(this);
@@ -89,11 +95,12 @@ void MainWindow::openfile()
         central->setText(qvariant_cast<QString>(text));
     }
     else{
-        QMessageBox *critical = new QMessageBox(QMessageBox::Critical,"错误","文件打开失败",QMessageBox::Ok,this);
+        QMessageBox::StandardButton critical = QMessageBox::critical(this,"错误","文件打开失败",QMessageBox::Ok);
     }
 
     //修改状态栏中的文件名信息
     emit statubar->messageChanged(this->filepath);
+
 }
 
 void MainWindow::savetofile()
@@ -101,7 +108,29 @@ void MainWindow::savetofile()
 
 }
 
-void MainWindow::updateStatu(const QString filepath)
+void MainWindow::onsavefile()
 {
 
+}
+
+void MainWindow::onchangeFont()
+{
+
+}
+
+void MainWindow::onAddtime()
+{
+
+}
+
+void MainWindow::updateStatu(const QString filepath)
+{
+    this->StatufileName->clear();
+    this->StatufileName->setText(filepath);    
+}
+
+void MainWindow::updateStaTime()
+{
+    QDateTime nowtime = QDateTime::currentDateTime();
+    time->setText("时间 : "+nowtime.toString("yyyy-MM-dd hh:mm"));
 }

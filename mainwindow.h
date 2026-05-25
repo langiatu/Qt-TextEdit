@@ -24,7 +24,11 @@ private:
 private slots:
     void openfile();
     void savetofile();
+    void onsavefile();
+    void onchangeFont();
+    void onAddtime();
     void updateStatu(const QString filepath);
+    void updateStaTime();
 
 
 private:
@@ -34,5 +38,6 @@ private:
     QMenuBar *menubar;
     QStatusBar *statubar;
     QLabel *StatufileName;
+    QLabel *time;
 };
 #endif // MAINWINDOW_H
