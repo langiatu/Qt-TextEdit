@@ -5,6 +5,8 @@
 #include<QTextEdit>
 #include<QDateTime>
 #include<QFileDialog>
+#include<QColorDialog>
+#include<QFontDialog>
 #include<QByteArray>
 #include<QMessageBox>
 #include<QFileInfo>
@@ -14,8 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , filepath("")
+    , cenEditor(new QTextEdit(this))
     , StatufileName(new QLabel(""))
     , time(new QLabel(this))
+    , font()
 {
     ui->setupUi(this);
 
@@ -30,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer,&QTimer::timeout,this,&MainWindow::updateStaTime);
     timer->start(6000);
 
-    connect(statubar,&QStatusBar::messageChanged,this,&MainWindow::updateStatu);
+    connect(statubar,&QStatusBar::messageChanged,this,&MainWindow::updateStatuPath);
 
 }
 
@@ -49,19 +53,19 @@ void MainWindow::setwindow()
     menubar->addMenu(filemenu);
     menubar->addMenu(editmenu);
 
-
-    QAction *openfile = filemenu->addAction("打开",QKeySequence("Ctrl+O"));
-    QAction *saveto = filemenu->addAction("另存为",QKeySequence("Ctrl+R"));
-    QAction *save = filemenu->addAction("保存",QKeySequence("Ctrl+S"));
+    QAction *createfile = filemenu->addAction("新建文件",QKeySequence("Ctrl+c"));
+    QAction *openfile = filemenu->addAction("打开",QKeySequence("Ctrl+o"));
+    QAction *saveto = filemenu->addAction("另存为",QKeySequence("Ctrl+r"));
+    saveto->setDisabled(true);      //未打开任何文件时无法点击
+    QAction *save = filemenu->addAction("保存",QKeySequence("Ctrl+s"));
+    save->setDisabled(true);
 
     QAction *changeFont = editmenu->addAction("字体");
+    changeFont->setDisabled(true);
     QAction *addTime = editmenu->addAction("添加时间/日期");
+    addTime->setDisabled(true);
 
-    connect(openfile,&QAction::triggered,this,&MainWindow::openfile);
-    connect(saveto,&QAction::triggered,this,&MainWindow::savetofile);
-    connect(save,&QAction::triggered,this,&MainWindow::onsavefile);
-    connect(changeFont,&QAction::triggered,this,&MainWindow::onchangeFont);
-    connect(addTime,&QAction::triggered,this,&MainWindow::onAddtime);
+    menuAction << createfile << openfile << saveto << save << changeFont << addTime;
 
     //设置状态栏
     this->statubar = this->statusBar();
@@ -76,11 +80,42 @@ void MainWindow::setwindow()
     this->setStatusBar(this->statubar);
 
     //设置主部件
-    QTextEdit* textedit = new QTextEdit(this);
-    this->setCentralWidget(textedit);
+    this->setCentralWidget(this->cenEditor);
+
+
+    connect(createfile,&QAction::triggered,this,&MainWindow::onCreateFile);
+    connect(openfile,&QAction::triggered,this,&MainWindow::onOpenFile);
+    connect(saveto,&QAction::triggered,this,&MainWindow::onSavetoFile);
+    connect(save,&QAction::triggered,this,&MainWindow::onSaveFile);
+    connect(changeFont,&QAction::triggered,this,&MainWindow::onChangeFont);
+    connect(addTime,&QAction::triggered,this,&MainWindow::onAddtime);
+
 }
 
-void MainWindow::openfile()
+void MainWindow::onCreateFile()
+{
+    QFileDialog *createFile = new QFileDialog(this);
+    // createFile->setAcceptMode(QFileDialog::AcceptSave);
+
+    this->filepath = createFile->getSaveFileName(this,"创建文件","/",tr("(*.txt)"));
+
+    if(this->filepath.isEmpty()){
+        return;
+    }
+    else{
+        //设置菜单项使能
+        for(auto *action: menuAction){
+            if(action->isEnabled() == false){
+                action->setDisabled(false);
+            }
+        }
+        emit statubar->messageChanged(this->filepath);
+    }
+
+
+}
+
+void MainWindow::onOpenFile()
 {
     QFileDialog *currentFile = new QFileDialog(this);
 
@@ -93,37 +128,81 @@ void MainWindow::openfile()
         QTextEdit *central = qobject_cast<QTextEdit*>(this->centralWidget());
 
         central->setText(qvariant_cast<QString>(text));
+        //设置菜单项使能
+        for(auto *action: menuAction){
+            if(action->isEnabled() == false){
+                action->setDisabled(false);
+            }
+        }
+        //修改状态栏中的文件名信息
+        emit statubar->messageChanged(this->filepath);
     }
     else{
-        QMessageBox::StandardButton critical = QMessageBox::critical(this,"错误","文件打开失败",QMessageBox::Ok);
+        return;
     }
 
-    //修改状态栏中的文件名信息
-    emit statubar->messageChanged(this->filepath);
+
 
 }
 
-void MainWindow::savetofile()
-{
 
+void MainWindow::onSavetoFile()
+{
+    //创建保存文件对话框并设置默认后缀名
+    QFileDialog *currentFile = new QFileDialog(this);
+    currentFile->setAcceptMode(QFileDialog::AcceptMode::AcceptSave);
+
+    //获取用户设置的文件路径
+    QString NewFilePath = currentFile->getSaveFileName(this,tr("另存为"),"",tr("(*.txt)"));
+    //当用户取消保存时
+    if(NewFilePath.isEmpty()){
+        return;
+    }
+
+    QFile newFile(NewFilePath,this);
+    bool IsOpen = newFile.open(QIODevice::WriteOnly);
+    if(IsOpen){
+        QString text = this->cenEditor->toPlainText();
+        newFile.write(qvariant_cast<QByteArray>(text));
+    }
+    else{
+        QMessageBox::StandardButton critical = QMessageBox::critical(this,"错误","文件保存失败",QMessageBox::Ok);
+    }
 }
 
-void MainWindow::onsavefile()
+void MainWindow::onSaveFile()
 {
-
+    QFile newFile(filepath,this);
+    bool IsOpen = newFile.open(QIODevice::WriteOnly);
+    if(IsOpen){
+        QString text = this->cenEditor->toPlainText();
+        newFile.write(qvariant_cast<QByteArray>(text));
+    }
+    else{
+        QMessageBox::StandardButton critical = QMessageBox::critical(this,"错误","文件保存失败",QMessageBox::Ok);
+    }
 }
 
-void MainWindow::onchangeFont()
+void MainWindow::onChangeFont()
 {
+    QFontDialog *FontSetting = new QFontDialog(this);
+    bool ok;
+    this->font = FontSetting->getFont(&ok,this);
 
+    if(ok){
+        this->centralWidget()->setFont(this->font);
+    }
 }
 
 void MainWindow::onAddtime()
 {
+    QDateTime nowtime = QDateTime::currentDateTime();
+    QString time = nowtime.toString(tr("yyyy-MM-dd hh:mm"));
 
+    this->cenEditor->insertPlainText(time);
 }
 
-void MainWindow::updateStatu(const QString filepath)
+void MainWindow::updateStatuPath(const QString filepath)
 {
     this->StatufileName->clear();
     this->StatufileName->setText(filepath);    
@@ -133,4 +212,15 @@ void MainWindow::updateStaTime()
 {
     QDateTime nowtime = QDateTime::currentDateTime();
     time->setText("时间 : "+nowtime.toString("yyyy-MM-dd hh:mm"));
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if(!this->filepath.isEmpty()){
+        int select = QMessageBox::question(this,"提示","是否保存文件",QMessageBox::StandardButton::Save|QMessageBox::StandardButton::Cancel,QMessageBox::StandardButton::Save);
+        if(select == QMessageBox::StandardButton::Save){
+            emit this->onSaveFile();
+        }
+    }
+
 }

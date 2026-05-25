@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include<QFile>
 #include<QLabel>
+#include<QList>
+#include<QAction>
+#include<QTextEdit>
+#include<QWidget>
+#include<QCloseEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,22 +27,29 @@ public:
 private:
     void setwindow();
 private slots:
-    void openfile();
-    void savetofile();
-    void onsavefile();
-    void onchangeFont();
+    void onCreateFile();
+    void onOpenFile();
+    void onSavetoFile();
+    void onSaveFile();
+    void onChangeFont();
     void onAddtime();
-    void updateStatu(const QString filepath);
+    void updateStatuPath(const QString filepath);
     void updateStaTime();
+
+protected:
+    void closeEvent(QCloseEvent *event)override;
 
 
 private:
     Ui::MainWindow *ui;
     QFile *file;
     QString filepath;
+    QTextEdit *cenEditor;
     QMenuBar *menubar;
     QStatusBar *statubar;
     QLabel *StatufileName;
     QLabel *time;
+    QFont font;
+    QList<QAction *> menuAction;
 };
 #endif // MAINWINDOW_H

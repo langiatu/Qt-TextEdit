@@ -40,34 +40,37 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "MainWindow",
-        "openfile",
+        "onCreateFile",
         "",
-        "savetofile",
-        "onsavefile",
-        "onchangeFont",
+        "onOpenFile",
+        "onSavetoFile",
+        "onSaveFile",
+        "onChangeFont",
         "onAddtime",
-        "updateStatu",
+        "updateStatuPath",
         "filepath",
         "updateStaTime"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Slot 'openfile'
+        // Slot 'onCreateFile'
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'savetofile'
+        // Slot 'onOpenFile'
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onsavefile'
+        // Slot 'onSavetoFile'
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onchangeFont'
+        // Slot 'onSaveFile'
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onAddtime'
+        // Slot 'onChangeFont'
         QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'updateStatu'
-        QtMocHelpers::SlotData<void(const QString)>(7, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 8 },
+        // Slot 'onAddtime'
+        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'updateStatuPath'
+        QtMocHelpers::SlotData<void(const QString)>(8, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 9 },
         }}),
         // Slot 'updateStaTime'
-        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -91,13 +94,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     auto *_t = static_cast<MainWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->openfile(); break;
-        case 1: _t->savetofile(); break;
-        case 2: _t->onsavefile(); break;
-        case 3: _t->onchangeFont(); break;
-        case 4: _t->onAddtime(); break;
-        case 5: _t->updateStatu((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 6: _t->updateStaTime(); break;
+        case 0: _t->onCreateFile(); break;
+        case 1: _t->onOpenFile(); break;
+        case 2: _t->onSavetoFile(); break;
+        case 3: _t->onSaveFile(); break;
+        case 4: _t->onChangeFont(); break;
+        case 5: _t->onAddtime(); break;
+        case 6: _t->updateStatuPath((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 7: _t->updateStaTime(); break;
         default: ;
         }
     }
@@ -122,14 +126,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }
