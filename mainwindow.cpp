@@ -110,6 +110,7 @@ void MainWindow::onCreateFile()
             }
         }
         emit statubar->messageChanged(this->filepath);
+        emit onSaveFile();
     }
 
 
@@ -141,8 +142,6 @@ void MainWindow::onOpenFile()
         return;
     }
 
-
-
 }
 
 
@@ -153,13 +152,13 @@ void MainWindow::onSavetoFile()
     currentFile->setAcceptMode(QFileDialog::AcceptMode::AcceptSave);
 
     //获取用户设置的文件路径
-    QString NewFilePath = currentFile->getSaveFileName(this,tr("另存为"),"",tr("(*.txt)"));
+    this->filepath = currentFile->getSaveFileName(this,tr("另存为"),"",tr("(*.txt)"));
     //当用户取消保存时
-    if(NewFilePath.isEmpty()){
+    if(this->filepath.isEmpty()){
         return;
     }
 
-    QFile newFile(NewFilePath,this);
+    QFile newFile(this->filepath,this);
     bool IsOpen = newFile.open(QIODevice::WriteOnly);
     if(IsOpen){
         QString text = this->cenEditor->toPlainText();
