@@ -1,6 +1,7 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+// #include "ui_mainwindow.h"
 #include<QMenuBar>
+#include<QStatusBar>
 #include<QIcon>
 #include<QTextEdit>
 #include<QDateTime>
@@ -14,14 +15,16 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    // , ui(new Ui::MainWindow)
     , filepath("")
     , cenEditor(new QTextEdit(this))
     , StatufileName(new QLabel(""))
     , time(new QLabel(this))
     , font()
+    , statubar(this->statusBar())
+    , menubar(this->menuBar())
 {
-    ui->setupUi(this);
+    // ui->setupUi(this);
 
     //设置图标与标题
     this->setWindowTitle("TextEdit");
@@ -34,24 +37,24 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer,&QTimer::timeout,this,&MainWindow::updateStaTime);
     timer->start(6000);
 
-    connect(statubar,&QStatusBar::messageChanged,this,&MainWindow::updateStatuPath);
+    // connect(statubar,&QStatusBar::messageChanged,this,&MainWindow::updateStatuPath);
 
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    // delete ui;
 }
 
 void MainWindow::setwindow()
 {
     //设置菜单栏
-    menubar = this->menuBar();
+    // this->menubar = this->menuBar();
     QMenu* filemenu = new QMenu("文件");
     QMenu* editmenu = new QMenu("编辑");
 
-    menubar->addMenu(filemenu);
-    menubar->addMenu(editmenu);
+    this->menubar->addMenu(filemenu);
+    this->menubar->addMenu(editmenu);
 
     QAction *createfile = filemenu->addAction("新建文件",QKeySequence("Ctrl+c"));
     QAction *openfile = filemenu->addAction("打开",QKeySequence("Ctrl+o"));
@@ -68,7 +71,7 @@ void MainWindow::setwindow()
     menuAction << createfile << openfile << saveto << save << changeFont << addTime;
 
     //设置状态栏
-    this->statubar = this->statusBar();
+    // this->statubar = this->statusBar();
     //时间显示
     QDateTime nowtime = QDateTime::currentDateTime();
     time->setText("时间 : "+nowtime.toString("yyyy-MM-dd hh:mm"));
@@ -109,7 +112,7 @@ void MainWindow::onCreateFile()
                 action->setDisabled(false);
             }
         }
-        emit statubar->messageChanged(this->filepath);
+        // emit statubar->messageChanged(this->filepath);
         emit onSaveFile();
     }
 
@@ -136,7 +139,7 @@ void MainWindow::onOpenFile()
             }
         }
         //修改状态栏中的文件名信息
-        emit statubar->messageChanged(this->filepath);
+        // emit statubar->messageChanged(this->filepath);
     }
     else{
         return;

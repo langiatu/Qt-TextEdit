@@ -11,7 +11,7 @@ qt_add_executable(TextEidt
     main.cpp
     mainwindow.cpp
     mainwindow.h
-    mainwindow.ui
+
     rec.qrc
 )
 

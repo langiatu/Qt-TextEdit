@@ -41,7 +41,7 @@ protected:
 
 
 private:
-    Ui::MainWindow *ui;
+    // Ui::MainWindow *ui;
     QFile *file;
     QString filepath;
     QTextEdit *cenEditor;
