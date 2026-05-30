@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer,&QTimer::timeout,this,&MainWindow::updateStaTime);
     timer->start(6000);
 
-    // connect(statubar,&QStatusBar::messageChanged,this,&MainWindow::updateStatuPath);
+    connect(this,&MainWindow::updateFilePath,this,&MainWindow::updateStatuPath);
 
 }
 
@@ -48,8 +48,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::setwindow()
 {
+    this->resize(680,400);
+
     //设置菜单栏
-    // this->menubar = this->menuBar();
     QMenu* filemenu = new QMenu("文件");
     QMenu* editmenu = new QMenu("编辑");
 
@@ -71,14 +72,14 @@ void MainWindow::setwindow()
     menuAction << createfile << openfile << saveto << save << changeFont << addTime;
 
     //设置状态栏
-    // this->statubar = this->statusBar();
+    this->statubar = this->statusBar();
     //时间显示
     QDateTime nowtime = QDateTime::currentDateTime();
     time->setText("时间 : "+nowtime.toString("yyyy-MM-dd hh:mm"));
     statubar->addWidget(time,1);
 
     //当前文件名显示
-    statubar->addWidget(StatufileName,1);
+    this->statubar->addWidget(StatufileName,1);
 
     this->setStatusBar(this->statubar);
 
@@ -112,7 +113,7 @@ void MainWindow::onCreateFile()
                 action->setDisabled(false);
             }
         }
-        // emit statubar->messageChanged(this->filepath);
+        emit this->updateFilePath(this->filepath);
         emit onSaveFile();
     }
 
@@ -139,7 +140,7 @@ void MainWindow::onOpenFile()
             }
         }
         //修改状态栏中的文件名信息
-        // emit statubar->messageChanged(this->filepath);
+        emit this->updateFilePath(this->filepath);
     }
     else{
         return;

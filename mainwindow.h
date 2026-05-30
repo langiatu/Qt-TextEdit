@@ -24,6 +24,10 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
+signals:
+    void updateFilePath(QString path);
+
+
 private:
     void setwindow();
 private slots:
