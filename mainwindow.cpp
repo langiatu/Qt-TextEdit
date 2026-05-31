@@ -38,6 +38,13 @@ MainWindow::MainWindow(QWidget *parent)
     QTimer *timer = new QTimer(this);
     connect(timer,&QTimer::timeout,this,&MainWindow::updateStaTime);
     timer->start(6000);
+
+    connect(cenEditor,&QTextEdit::textChanged,this,[=](){
+        if(!this->textIsChanged){
+            this->textIsChanged = true;
+            this->filepath + "*";
+        }
+    });
 }
 
 MainWindow::~MainWindow()
@@ -75,17 +82,20 @@ void MainWindow::setwindow()
     menuAction << createfile << openfile << saveto << save << changeFont << addTime;
 
     //设置状态栏
-    this->statubar = this->statusBar();
+    // this->statubar = this->statusBar();
         //时间显示
     QDateTime nowtime = QDateTime::currentDateTime();
     time->setText("时间 : "+nowtime.toString("yyyy-MM-dd hh:mm"));
     statubar->addWidget(time,1);
 
-        //行列号显示 自动调用槽函数
-    emit this->cenEditor->cursorPositionChanged();
 
         //当前文件名显示
     this->statubar->addWidget(StatufileName,1);
+
+        //行列号显示 自动调用槽函数
+    this->cursor->setText("");
+    statubar->addWidget(this->cursor);
+    emit this->cenEditor->cursorPositionChanged();
 
     this->setStatusBar(this->statubar);
 
@@ -146,10 +156,12 @@ void MainWindow::onOpenFile()
 
 
     if(isopen){     //文件成功打开后，将文本文件的内容加载至文本框
-        QByteArray text = file.readAll();
+        QByteArray data = file.readAll();
+
+        QString text = QString::fromUtf8(data);
         QTextEdit *central = qobject_cast<QTextEdit*>(this->centralWidget());
 
-        central->setText(qvariant_cast<QString>(text));
+        central->setText(text.toUtf8());
         //设置菜单项使能
         for(auto *action: menuAction){
             if(action->isEnabled() == false){
@@ -192,7 +204,7 @@ void MainWindow::onSavetoFile()
 
     if(IsOpen){         //打开文件并将内容保存到文件中
         QString text = this->cenEditor->toPlainText();
-        newFile.write(qvariant_cast<QByteArray>(text));
+        newFile.write(text.toUtf8());
 
         //设置文件内容已修改标记
         this->textIsChanged = true;
@@ -211,7 +223,7 @@ void MainWindow::onSaveFile()
 
     if(IsOpen){         //文件成功打开时将编辑器文本保存到文件
         QString text = this->cenEditor->toPlainText();
-        newFile.write(qvariant_cast<QByteArray>(text));
+        newFile.write(text.toUtf8());
 
         //设置文件内容已修改标记
         this->textIsChanged = true;
@@ -270,8 +282,8 @@ void MainWindow::updateCursor()
     //将光标位置信息设置为cursor标签文本
     this->cursor->setText(tr("行：%1 列：%2").arg(row).arg(cul));
 
-    //将cursor标签添加到状态栏
-    this->statubar->addWidget(this->cursor);
+    // //将cursor标签添加到状态栏
+    // this->statubar->addWidget(this->cursor);
 }
 
 //重写关闭窗口时间处理函数 ---- 再关闭窗口前提示用户
