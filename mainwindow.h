@@ -25,11 +25,12 @@ public:
     ~MainWindow() override;
 
 signals:
-    void updateFilePath(QString path);
+    void updateFilePath(QString path);      //自定义信号
 
 
 private:
     void setwindow();
+
 private slots:
     void onCreateFile();
     void onOpenFile();
@@ -39,20 +40,21 @@ private slots:
     void onAddtime();
     void updateStatuPath(const QString filepath);
     void updateStaTime();
+    void updateCursor();
 
 protected:
     void closeEvent(QCloseEvent *event)override;
 
 
 private:
-    // Ui::MainWindow *ui;
-    QFile *file;
+    bool textIsChanged;
     QString filepath;
     QTextEdit *cenEditor;
     QMenuBar *menubar;
     QStatusBar *statubar;
     QLabel *StatufileName;
     QLabel *time;
+    QLabel *cursor;
     QFont font;
     QList<QAction *> menuAction;
 };
