@@ -5,7 +5,6 @@
 #include<QTextEdit>
 #include<QDateTime>
 #include<QFileDialog>
-#include<QColorDialog>
 #include<QFontDialog>
 #include<QByteArray>
 #include<QMessageBox>
@@ -67,7 +66,7 @@ void MainWindow::setwindow()
         //设置菜单栏filemenu中的菜单项
     QAction *createfile = filemenu->addAction("新建文件",QKeySequence("Ctrl+n"));
     QAction *openfile = filemenu->addAction("打开",QKeySequence("Ctrl+o"));
-    QAction *saveto = filemenu->addAction("另存为",QKeySequence("Ctrl+S"));
+    QAction *saveto = filemenu->addAction("另存为",QKeySequence("Ctrl+Shift+s"));
     saveto->setDisabled(true);      //未打开任何文件时无法点击
     QAction *save = filemenu->addAction("保存",QKeySequence("Ctrl+s"));
     save->setDisabled(true);
@@ -82,7 +81,6 @@ void MainWindow::setwindow()
     menuAction << createfile << openfile << saveto << save << changeFont << addTime;
 
     //设置状态栏
-    // this->statubar = this->statusBar();
         //时间显示
     QDateTime nowtime = QDateTime::currentDateTime();
     time->setText("时间 : "+nowtime.toString("yyyy-MM-dd hh:mm"));
