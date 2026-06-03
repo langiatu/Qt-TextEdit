@@ -6,7 +6,7 @@ set(CMAKE_AUTORCC ON)
 
 qt_standard_project_setup()
 
-qt_add_executable(TextEidt
+qt_add_executable(TextEdit
     WIN32 MACOSX_BUNDLE
     main.cpp
     mainwindow.cpp
@@ -14,20 +14,20 @@ qt_add_executable(TextEidt
     rec.qrc
 )
 
-target_link_libraries(TextEidt
+target_link_libraries(TextEdit
     PRIVATE
         Qt::Core
         Qt::Widgets
 )
 
-install(TARGETS TextEidt
+install(TARGETS TextEdit
     BUNDLE  DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 qt_generate_deploy_app_script(
-    TARGET TextEidt
+    TARGET TextEdit
     OUTPUT_SCRIPT deploy_script
     NO_UNSUPPORTED_PLATFORM_ERROR
 )
