@@ -280,11 +280,9 @@ void MainWindow::updateCursor()
     //将光标位置信息设置为cursor标签文本
     this->cursor->setText(tr("行：%1 列：%2").arg(row).arg(cul));
 
-    // //将cursor标签添加到状态栏
-    // this->statubar->addWidget(this->cursor);
 }
 
-//重写关闭窗口时间处理函数 ---- 再关闭窗口前提示用户
+//重写关闭窗口时间处理函数 ---- 在关闭窗口前提示用户
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(!this->filepath.isEmpty() && this->textIsChanged){       //当打开文件且编辑器内容修改后，在关闭窗口时提醒用户是否保存文本的修改
