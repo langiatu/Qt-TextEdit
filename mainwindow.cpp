@@ -39,9 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
     timer->start(6000);
 
     connect(cenEditor,&QTextEdit::textChanged,this,[=](){
-        if(!this->textIsChanged){
-            this->textIsChanged = true;
+        this->textIsChanged = true;
+        if(this->textIsChanged && this->StatufileName->text()==this->filepath){
             this->StatufileName->setText(this->StatufileName->text() + "*");
+            this->textIsChanged = false;
         }
     });
 }
@@ -179,16 +180,9 @@ void MainWindow::onOpenFile()
 //另存为菜单项槽函数  ----- 为当前编辑器文本文件创建一个副本文件
 void MainWindow::onSavetoFile()
 {
-    //创建保存文件对话框并设置默认后缀名
-    // QFileDialog *currentFile = new QFileDialog(this);
-    // currentFile->setAcceptMode(QFileDialog::AcceptMode::AcceptSave);
 
     //获取用户设置的文件路径
     this->filepath = QFileDialog::getSaveFileName(this,tr("另存为"),"",tr("(*.txt)"));
-
-    //获取到新文件名后手动释放QFileDialog对话框
-    // delete currentFile;
-
 
     if(this->filepath.isEmpty()){   //当用户取消保存时，直接返回主页面
         return;
@@ -223,8 +217,8 @@ void MainWindow::onSaveFile()
         newFile.write(text.toUtf8());
 
         //设置文件内容修改已保存
-        this->textIsChanged = false;
-        this->StatufileName->setText(this->StatufileName->text() + "*");
+        this->textIsChanged = true;
+        this->StatufileName->setText(this->filepath);
     }
     else{               //文件保存失败提醒用户
         QMessageBox::StandardButton critical = QMessageBox::critical(this,"错误","文件保存失败",QMessageBox::Ok);
